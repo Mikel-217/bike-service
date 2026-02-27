@@ -9,7 +9,20 @@
 </head>
 
 <body>
-    <h1>Test</h1>
+    <div class="overview-section">
+        <div class="overview-section-content">
+            <h1>&Uuml;bersicht:</h1>
+            <div class="overview-section-bike">
+            <?php
+            ?>            
+
+            </div>
+
+            <div class="overview-section-button">
+                <div class="btn-main"></div>
+            </div>
+        </div>
+    </div>   
 
 </body>
 </html>
