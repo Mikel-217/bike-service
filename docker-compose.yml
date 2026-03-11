@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: bike_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: BikeService
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./tables.sql:/docker-entrypoint-initdb.d/tables.sql
+
+  web:
+    build: .
+    container_name: bike_web
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html
+
+volumes:
+  db_data:
