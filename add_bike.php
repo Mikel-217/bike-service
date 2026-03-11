@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         try {
             $stmt->execute([$name, $brand, $year, $hp, $km]);
-            $message = "<p >Motorrad erfolgreich hinzugef&uuml;gt! <a href='index.php'>Zur Übersicht</a></p>";
+            $message = "<p>Motorrad erfolgreich hinzugef&uuml;gt! <a class='btn-secondary' href='index.php'>Zur &Uuml;bersicht</a></p>";
         } catch (PDOException $e) {
             $message = "<p style='color: red;'>Fehler beim Speichern: " . $e->getMessage() . "</p>";
         }
@@ -32,8 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Bike hinzufügen - Bike-Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike-Service</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="colors.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
@@ -71,8 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="number" id="bike_km" name="bike_km">
             </div>
 
-            <button type="submit" class="btn-submit">Speichern</button>
-            <a href="index.php">Abbrechen</a>
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Speichern</button>
+                <a href="index.php" class="btn-secondary">Abbrechen</a>
+            </div>
         </form>
     </div>
 </body>

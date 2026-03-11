@@ -1,0 +1,13 @@
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --bg-input: #2a2a2a;
+    --text-main: #ffffff;
+    --text-dim: #b0b0b0;
+    --accent: #e63946;
+    --accent-hover: #ff4d5a;
+    --success: #4caf50;
+    --border: #333333;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --radius: 12px;
+}

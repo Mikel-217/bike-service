@@ -1,43 +1,40 @@
 <?php
 
 class BikeCard {
-    private $bikeData;
+    private $pdo;
+    private $bikeId;
 
-    public function __construct(private PDO $pdo, private int $bikeId) {
-        $this->loadData();
-    }
-
-    private function loadData() {
-        $sql = "SELECT BikeName, BikeManufactor, BikeYear, BikeHP, BikeKM 
-                FROM Bikes 
-                WHERE BikeId = ?";
-        
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$this->bikeId]);
-        
-
-        $this->bikeData = $stmt->fetch(PDO::FETCH_ASSOC);
+    // constructor for bike class and we want to things here :)
+    public function __construct($pdo, $bikeId) {
+        $this->pdo = $pdo;
+        $this->bikeId = $bikeId;
     }
 
     public function render() {
-        if (!$this->bikeData) {
-            return "<div class='error'>Motorrad mit ID {$this->bikeId} nicht gefunden.</div>";
-        }
+        // gets the bike
+        $stmt = $this->pdo->prepare("SELECT * FROM Bikes WHERE BikeId = ?");
+        $stmt->execute([$this->bikeId]);
+        $bike = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // error just return empty
+        if (!$bike) return "";
+        
+        // else return the
+        $html = '<div class="bike-card">';
+        $html .= '  <div>';
+        $html .= '    <span class="manufactor">' . htmlspecialchars($bike['BikeManufactor']) . '</span>';
+        $html .= '    <h3>' . htmlspecialchars($bike['BikeName']) . '</h3>';
+        
+        $html .= '    <div class="bike-stats">';
+        $html .= '      <div><strong>Jahr:</strong> ' . date("Y", strtotime($bike['BikeYear'])) . '</div>';
+        $html .= '      <div><strong>Leistung:</strong> ' . $bike['BikeHP'] . ' PS</div>';
+        $html .= '      <div><strong>Kilometer:</strong> ' . number_format($bike['BikeKM'], 0, ',', '.') . ' km</div>';
+        $html .= '    </div>';
+        $html .= '  </div>';
+        
+        $html .= '  <a href="view_bike.php?id=' . $this->bikeId . '" class="btn-details">Details & Service</a>';
+        $html .= '</div>';
 
-        $name = htmlspecialchars($this->bikeData['BikeName']);
-        $hersteller = htmlspecialchars($this->bikeData['BikeManufactor']);
-        $jahr = date("Y", strtotime($this->bikeData['BikeYear']));
-        $ps = (int)$this->bikeData['BikeHP'];
-        $km = number_format($this->bikeData['BikeKM'], 0, ',', '.');
-
-        return "
-                <a href='view_bike.php?id={$this->bikeId}'>
-                    <div class='section-bike'>
-                        <h3>$hersteller $name</h3>
-                        <p>Aktuell: $km km</p>
-                    </div>
-                </a>
-            ";
+        return $html;
     }
 }
